@@ -100,3 +100,9 @@ def stats():
         "received": received_count,
         "rejected": rejected_count,
     }), 200
+
+# ─── Entry Point ──────────────────────────────────────────────────────────────
+if _name_ == "_main_":
+    port = int(os.environ.get("PORT", 5000))
+    print(f"[API] Starting Vote Ingestion API on port {port}")
+    app.run(host="0.0.0.0", port=port, debug=False)
