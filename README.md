@@ -160,7 +160,16 @@ Each edge node:
 
 ## Reflections
 
--placeholder-
+1. **Differences Between Sequential and Distributed Execution**
+-
+2. **System Performance Under Increasing Load**
+-
+3. **Challenges Encountered During Implementation and Deployment**
+-
+4. **Insights on Distributed System Behavior**
+-
+5. **Advantages and Disadvantages of Distributed Execution**
+-
 
 ---
 
@@ -169,6 +178,7 @@ Each edge node:
 - **`edge_node.py`** - Edge node simulator
 - **`worker.py`** - Message processor
 - **`supabase_schema.sql`** - Database schema
-- **`.env`** - Configuration (Supabase credentials) (converted to '.env.example' for visibility since github does not allow to upload an '.env' file)
+- **`.env`** - Configuration (Supabase credentials) (converted to **`.env.example`** for visibility since github does not allow to upload an **`.env`** file)
 - **`requirements.txt`** - Python dependencies
 - **`README.md`** - This file
+
