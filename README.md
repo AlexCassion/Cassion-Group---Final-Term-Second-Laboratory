@@ -181,4 +181,5 @@ Each edge node:
 - **`.env`** - Configuration (Supabase credentials) (converted to **`.env.example`** for visibility since github does not allow to upload an **`.env`** file)
 - **`requirements.txt`** - Python dependencies
 - **`README.md`** - This file
+- **`Cassion Group Short Demo.mp4`** - Short video demo of the program
 
