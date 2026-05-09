@@ -167,7 +167,7 @@ Each edge node:
 3. **Challenges Encountered During Implementation and Deployment**
 -
 4. **Insights on Distributed System Behavior**
--
+- The activity demonstrated how fault tolerance works in distributed systems through buffering and automatic recovery. Even when the worker service was disabled, the system continued accepting votes because messages remained stored in the queue until processing resumed. After recovery, queued votes were automatically processed without manual intervention, showing eventual consistency where the final database state eventually became correct despite temporary inconsistencies during failure conditions.
 5. **Advantages and Disadvantages of Distributed Execution**
 - Distributed execution improved scalability, reliability, and parallel processing because multiple edge nodes could send votes simultaneously without overloading a single process. However, these advantages also introduced additional complexity such as communication overhead, delayed processing caused by message queues, and more difficult debugging compared to a simple sequential application. The activity showed that distributed systems are more resilient and flexible, but they require careful coordination between components to maintain consistency and reliability.
 
