@@ -24,3 +24,6 @@ CREATE TABLE IF NOT EXISTS votes (
     processed_at FLOAT8,
     created_at   TIMESTAMPTZ DEFAULT NOW()
 );
+
+CREATE INDEX IF NOT EXISTS idx_votes_poll ON votes(poll_id);
+CREATE INDEX IF NOT EXISTS idx_votes_choice ON votes(choice);
