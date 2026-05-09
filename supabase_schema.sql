@@ -9,3 +9,6 @@ CREATE TABLE IF NOT EXISTS vote_queue (
     status      TEXT        DEFAULT 'pending' CHECK (status IN ('pending', 'processed')),
     created_at  TIMESTAMPTZ DEFAULT NOW()
 );
+
+CREATE INDEX IF NOT EXISTS idx_vote_queue_status ON vote_queue(status);
+
