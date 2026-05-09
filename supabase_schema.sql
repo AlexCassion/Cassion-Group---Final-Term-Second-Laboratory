@@ -46,3 +46,8 @@ CREATE OR REPLACE VIEW vote_latency AS
     FROM votes
     WHERE processed_at IS NOT NULL
     ORDER BY latency_seconds DESC;
+
+CREATE OR REPLACE VIEW queue_status AS
+    SELECT status, COUNT(*) AS count
+    FROM vote_queue
+    GROUP BY status;
