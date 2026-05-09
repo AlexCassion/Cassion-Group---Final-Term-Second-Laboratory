@@ -1,6 +1,18 @@
 # Distributed Voting System - Supabase Edition
 ### CS323 Laboratory Activity — Edge-Cloud Architecture with Fault Tolerance
 
+### Members:
+Alex Cassion = Alex Cassion 
+
+potato715 = Michael Pabellan 
+
+CS3C = Jayson Soriano
+
+Michael Andres = Michael Cabot
+
+Bjurnh = Niel Camariosa
+
+
 A distributed voting system implementing an event-driven edge-to-cloud pipeline using **Supabase** as the backend infrastructure. Multiple independent edge nodes generate votes, a REST API ingests them, and a worker service processes them asynchronously into persistent storage.
 
 ## System Architecture
