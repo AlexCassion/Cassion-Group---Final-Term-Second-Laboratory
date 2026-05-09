@@ -48,3 +48,55 @@ def process_vote(message: dict) -> bool:
         True if processed successfully, False on error.
     """
     global processed_count, duplicate_count, error_count
+
+    try:
+        vote = {
+            "user_id": message["user_id"],
+            "poll_id": message["poll_id"],
+            "choice": message["choice"],
+            "edge_id": message.get("edge_id", "unknown"),
+            "timestamp": message["timestamp"],
+            "time_created": message["time_created"],
+            "processed_at": time.time(),
+        }
+
+        # ── Idempotency: unique key = user_id + poll_id ───────────────────────
+        # Using upsert so that duplicate deliveries don't create duplicate records.
+        # This mirrors the doc_id = f"{user_id}_{poll_id}" pattern from the lab.
+        doc_id = f"{vote['user_id']}_{vote['poll_id']}"
+
+        existing = (
+            supabase.table("votes")
+            .select("id")
+            .eq("doc_id", doc_id)
+            .execute()
+        )
+
+        if existing.data:
+            duplicate_count += 1
+            print(
+                f"[WORKER] DUPLICATE detected | doc_id={doc_id} | "
+                f"Skipping insertion. Total duplicates={duplicate_count}"
+            )
+        else:
+            vote["doc_id"] = doc_id
+            supabase.table("votes").insert(vote).execute()
+            processed_count += 1
+            print(
+                f"[WORKER] Processed vote | user={vote['user_id']} | "
+                f"poll={vote['poll_id']} | choice={vote['choice']} | "
+                f"worker_time={time.time():.2f} | total_processed={processed_count}"
+            )
+
+        # ── Acknowledge: mark message as processed in queue ───────────────────
+        supabase.table("vote_queue").update({"status": "processed"}).eq(
+            "id", message["id"]
+        ).execute()
+
+        return True
+
+    except Exception as e:
+        error_count += 1
+        print(f"[WORKER ERROR] Failed to process message id={message.get('id')}: {e}")
+        # Do NOT mark as processed — it will be retried on next poll
+        return False
