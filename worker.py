@@ -30,3 +30,21 @@ POLL_INTERVAL = 2  # seconds between queue checks
 processed_count = 0
 duplicate_count = 0
 error_count = 0
+
+def process_vote(message: dict) -> bool:
+    """
+    Process a single vote message from the queue.
+
+    Steps:
+    1. Extract vote data from the queue row.
+    2. Create an idempotent document ID (user_id + poll_id).
+    3. Upsert into the `votes` table (Firestore equivalent).
+    4. Mark the queue message as 'processed'.
+
+    Args:
+        message: A row from the vote_queue table.
+
+    Returns:
+        True if processed successfully, False on error.
+    """
+    global processed_count, duplicate_count, error_count
