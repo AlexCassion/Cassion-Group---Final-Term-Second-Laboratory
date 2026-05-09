@@ -1,3 +1,4 @@
+-- ── vote_queue table (replaces GCP Pub/Sub)
 CREATE TABLE IF NOT EXISTS vote_queue (
     id          BIGSERIAL PRIMARY KEY,
     user_id     TEXT        NOT NULL,
@@ -10,8 +11,10 @@ CREATE TABLE IF NOT EXISTS vote_queue (
     created_at  TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- Index for efficient worker polling
 CREATE INDEX IF NOT EXISTS idx_vote_queue_status ON vote_queue(status);
 
+-- ── votes table (replaces GCP Firestore)
 CREATE TABLE IF NOT EXISTS votes (
     id           BIGSERIAL PRIMARY KEY,
     doc_id       TEXT        UNIQUE NOT NULL,
@@ -25,15 +28,18 @@ CREATE TABLE IF NOT EXISTS votes (
     created_at   TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- Index for analytics queries
 CREATE INDEX IF NOT EXISTS idx_votes_poll ON votes(poll_id);
 CREATE INDEX IF NOT EXISTS idx_votes_choice ON votes(choice);
 
+-- Vote counts by choice
 CREATE OR REPLACE VIEW vote_tally AS
     SELECT poll_id, choice, COUNT(*) AS total
     FROM votes
     GROUP BY poll_id, choice
     ORDER BY poll_id, choice;
 
+-- Latency view: edge timestamp vs processed_at
 CREATE OR REPLACE VIEW vote_latency AS
     SELECT
         user_id,
@@ -47,6 +53,7 @@ CREATE OR REPLACE VIEW vote_latency AS
     WHERE processed_at IS NOT NULL
     ORDER BY latency_seconds DESC;
 
+-- Queue status summary
 CREATE OR REPLACE VIEW queue_status AS
     SELECT status, COUNT(*) AS count
     FROM vote_queue
