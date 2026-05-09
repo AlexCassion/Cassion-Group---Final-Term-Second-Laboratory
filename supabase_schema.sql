@@ -27,3 +27,9 @@ CREATE TABLE IF NOT EXISTS votes (
 
 CREATE INDEX IF NOT EXISTS idx_votes_poll ON votes(poll_id);
 CREATE INDEX IF NOT EXISTS idx_votes_choice ON votes(choice);
+
+CREATE OR REPLACE VIEW vote_tally AS
+    SELECT poll_id, choice, COUNT(*) AS total
+    FROM votes
+    GROUP BY poll_id, choice
+    ORDER BY poll_id, choice;
