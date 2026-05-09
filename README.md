@@ -157,3 +157,18 @@ Each edge node:
 - Can run independently per group member
 
 ---
+
+## Reflections
+
+-placeholder-
+
+---
+
+## Files Overview
+- **`app.py`** - Flask API (Cloud Run equivalent)
+- **`edge_node.py`** - Edge node simulator
+- **`worker.py`** - Message processor
+- **`supabase_schema.sql`** - Database schema
+- **`.env`** - Configuration (Supabase credentials) (converted to '.env.example' for visibility since github does not allow to upload an '.env' file)
+- **`requirements.txt`** - Python dependencies
+- **`README.md`** - This file
