@@ -100,3 +100,28 @@ def process_vote(message: dict) -> bool:
         print(f"[WORKER ERROR] Failed to process message id={message.get('id')}: {e}")
         # Do NOT mark as processed — it will be retried on next poll
         return False
+
+def run_worker():
+    """
+    Main worker loop: continuously polls the vote_queue for pending messages
+    and processes them. Simulates Pub/Sub Pull subscription behavior.
+
+    Stopping this process simulates worker failure (Step 2 of fault injection).
+    Restarting it demonstrates automatic recovery (Step 3).
+    """
+    print("[WORKER] Starting worker service. Polling vote_queue for pending messages...")
+    print(f"[WORKER] Poll interval: {POLL_INTERVAL}s")
+
+    try:
+        while True:
+            # ── Pull pending messages (batch of 10) ───────────────────────────
+            result = (
+                supabase.table("vote_queue")
+                .select("*")
+                .eq("status", "pending")
+                .order("id", desc=False)
+                .limit(10)
+                .execute()
+            )
+
+            messages = result.data
