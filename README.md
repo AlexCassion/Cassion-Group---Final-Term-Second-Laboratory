@@ -161,7 +161,7 @@ Each edge node:
 ## Reflections
 
 1. **Differences Between Sequential and Distributed Execution**
--
+- One major difference between sequential and distributed execution was that the distributed system separated tasks across multiple independent components such as the edge nodes, API, worker service, and Supabase database. Instead of processing votes in a single flow, the system relied on asynchronous communication where votes were generated, queued, processed, and stored independently. This improved scalability and allowed multiple votes to be handled at the same time, but it also introduced delays, synchronization challenges, and more difficult debugging compared to a sequential program.
 2. **System Performance Under Increasing Load**
 -
 3. **Challenges Encountered During Implementation and Deployment**
