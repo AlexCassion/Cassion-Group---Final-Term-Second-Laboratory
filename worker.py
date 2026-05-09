@@ -125,3 +125,25 @@ def run_worker():
             )
 
             messages = result.data
+
+ if not messages:
+                print(f"[WORKER] No pending messages. Waiting {POLL_INTERVAL}s...")
+            else:
+                print(f"[WORKER] Found {len(messages)} pending message(s). Processing...")
+                for msg in messages:
+                    process_vote(msg)
+
+            time.sleep(POLL_INTERVAL)
+
+    except KeyboardInterrupt:
+        print("\n[WORKER] Worker stopped.")
+        print(
+            f"[SUMMARY] Processed: {processed_count} | "
+            f"Duplicates skipped: {duplicate_count} | "
+            f"Errors: {error_count}"
+        )
+
+
+# ─── Entry Point ──────────────────────────────────────────────────────────────
+if _name_ == "_main_":
+    run_worker()
