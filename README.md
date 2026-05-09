@@ -45,3 +45,14 @@ Edge Nodes (Python)
 │  (final persistent DB)  │
 └─────────────────────────┘
 ```
+
+### Service Mapping
+
+| GCP Service | Supabase Equivalent | Local Service |
+|---|---|---|
+| Cloud Run (API) | Supabase PostgreSQL | Flask app (port 5000) |
+| Pub/Sub Topic | `vote_queue` table | Rows with `status=pending` |
+| Pub/Sub Subscription (Pull) | Worker polls every 2s | `worker.py` |
+| Firestore | `votes` table | Persistent vote storage |
+
+---
