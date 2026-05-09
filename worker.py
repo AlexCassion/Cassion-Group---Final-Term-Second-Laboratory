@@ -25,3 +25,8 @@ SUPABASE_KEY: str = os.environ.get("SUPABASE_SERVICE_KEY", "")
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 POLL_INTERVAL = 2  # seconds between queue checks
+
+# ─── Counters ─────────────────────────────────────────────────────────────────
+processed_count = 0
+duplicate_count = 0
+error_count = 0
