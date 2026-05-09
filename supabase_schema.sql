@@ -33,3 +33,16 @@ CREATE OR REPLACE VIEW vote_tally AS
     FROM votes
     GROUP BY poll_id, choice
     ORDER BY poll_id, choice;
+
+CREATE OR REPLACE VIEW vote_latency AS
+    SELECT
+        user_id,
+        poll_id,
+        choice,
+        edge_id,
+        time_created,
+        processed_at,
+        ROUND(CAST((processed_at - time_created) AS NUMERIC), 3) AS latency_seconds
+    FROM votes
+    WHERE processed_at IS NOT NULL
+    ORDER BY latency_seconds DESC;
